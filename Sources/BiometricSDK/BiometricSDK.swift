@@ -1,7 +1,7 @@
 import Foundation
 import LocalAuthentication
 
-@MainActor
+
 public class BiometricAuthSDK {
     public enum BiometricAuthError: Error {
             case unavailable
@@ -21,14 +21,12 @@ public class BiometricAuthSDK {
 
             let reason = "Authenticate to continue"
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authError in
-                DispatchQueue.main.async {
                     if success {
                         let token = self.generateSecureToken()
                         completion(.success(token))
                     } else {
                         completion(.failure(.failed(authError?.localizedDescription ?? "Authentication failed")))
                     }
-                }
             }
         }
 
